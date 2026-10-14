@@ -30,6 +30,7 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
@@ -54,10 +55,13 @@ final class EtcdTestServer implements AutoCloseable {
 
     void start() throws Exception {
         if (Objects.isNull(binary)) {
+            port = availablePort();
             container = new GenericContainer<>(DockerImageName.parse("quay.io/coreos/etcd:v3.5.21"))
                     .withExposedPorts(ETCD_PORT)
                     .withCommand("etcd", "--listen-client-urls=http://0.0.0.0:2379", "--advertise-client-urls=http://127.0.0.1:2379")
                     .waitingFor(Wait.forHttp("/health").forPort(ETCD_PORT).forStatusCode(200));
+            // Reconnecting clients must keep the same endpoint when Docker restarts the server.
+            container.setPortBindings(List.of(port + ":" + ETCD_PORT));
             container.start();
             port = container.getMappedPort(ETCD_PORT);
         } else {
