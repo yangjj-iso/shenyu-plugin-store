@@ -71,6 +71,14 @@ public class PrxInfoUtilTest {
     }
 
     @Test
+    public void testBooleanParametersFromStringsAndJsonBooleans() {
+        assertArrayEquals(new Object[]{true, false, true, false},
+                PrxInfoUtil.getParamArray(new Class<?>[]{boolean.class, boolean.class, boolean.class, boolean.class},
+                        new String[]{"stringTrue", "stringFalse", "jsonTrue", "jsonFalse"},
+                        "{\"stringTrue\":\"true\",\"stringFalse\":\"false\",\"jsonTrue\":true,\"jsonFalse\":false}"));
+    }
+
+    @Test
     public void testGetParamArray() {
         assertArrayEquals(new Object[]{11, Double.valueOf("1.321321312"), Long.valueOf("131231312"), Short.valueOf("11"), Byte.valueOf("0"), false, 'a', 1.321321312F},
                 PrxInfoUtil.getParamArray(new Class<?>[]{int.class, double.class, long.class, short.class, byte.class, boolean.class, char.class, float.class},
