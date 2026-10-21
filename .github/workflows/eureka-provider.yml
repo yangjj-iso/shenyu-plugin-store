@@ -34,7 +34,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           repository: apache/shenyu
-          ref: 87c22dde7
+          ref: 87c22dde7be14c1c3755440a4d8b082a86d10a87
           path: core
       - uses: actions/setup-java@v4
         with:
@@ -73,8 +73,9 @@ jobs:
           cat eureka-server.log
           exit 1
       - name: Verify external provider and starter
+        working-directory: core
         run: >-
-          core/mvnw -B -ntp -f store/pom.xml
+          ./mvnw -B -ntp -f ../store/pom.xml
           -pl shenyu-extension/shenyu-extension-eureka/shenyu-spring-boot-starter-registry-eureka -am
           verify dependency:build-classpath apache-rat:check -Peureka-live
           -Dmdep.outputFile=target/eureka-classpath.txt -DincludeScope=runtime
