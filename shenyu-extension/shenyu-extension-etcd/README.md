@@ -23,7 +23,7 @@ Infrastructure is etcd-specific; no retained core module imports it.
 
 ## Release gates
 
-The main removal PR must remain draft until the community agrees to externalization,
+The main removal PR must not merge until the community agrees to externalization,
 the receiving build and real-server/full-deployment tests pass, and the external
 artifacts are published. This source change does not mean artifacts are released.
 The store currently uses `2.7.1-SNAPSHOT` and compiles against ShenYu `2.7.2-SNAPSHOT`;
@@ -159,5 +159,5 @@ SHENYU_CORE_SOURCE=/path/to/shenyu bash script/plugin-store/build-etcd-runtime.s
 mvn -B -ntp -pl shenyu-extension/shenyu-extension-etcd/shenyu-spring-boot-starter-sync-data-etcd -am verify -Petcd-e2e
 ```
 
-The initial receiving PR and paired main PR remain draft until container/full
+The receiving PR and paired main PR require passing container/full
 application verification and the release gates above are complete.

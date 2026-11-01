@@ -17,6 +17,7 @@
 
 package org.apache.shenyu.springboot.sync.data.etcd;
 
+import com.google.gson.JsonObject;
 import org.apache.shenyu.admin.listener.etcd.EtcdDataChangedInit;
 import org.apache.shenyu.admin.listener.etcd.EtcdDataDataChangedListener;
 import org.apache.shenyu.admin.service.SyncDataService;
@@ -399,19 +400,23 @@ public final class EtcdRealServerTest {
                                      final String path) {
         final DivideRuleHandle handle = DivideRuleHandle.newInstance();
         handle.setRetry(0);
-        return RuleData.builder()
+        final RuleData rule = RuleData.builder()
                 .id(ruleId)
                 .name(ruleId)
                 .pluginName(PluginEnum.DIVIDE.getName())
                 .selectorId(selectorId)
                 .enabled(true)
-                .logged(false)
                 .sort(1)
                 .matchMode(MatchModeEnum.AND.getCode())
                 .handle(GsonUtils.getInstance().toJson(handle))
                 .conditionDataList(List.of(uriCondition(OperatorEnum.EQ.getAlias(), path)))
                 .namespaceId(namespace)
                 .build();
+        // Snapshot cores straddle the loged/logged rename; exercise their supported wire fields.
+        final JsonObject json = GsonUtils.getInstance().fromJson(GsonUtils.getInstance().toJson(rule), JsonObject.class);
+        json.addProperty("loged", false);
+        json.addProperty("logged", false);
+        return GsonUtils.getInstance().fromJson(json.toString(), RuleData.class);
     }
 
     private static ConditionData uriCondition(final String operator, final String value) {

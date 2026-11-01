@@ -113,7 +113,7 @@ public final class GatewayFixtures {
                 .selectorId(selectorId)
                 .name(pluginName + "-rule")
                 .enabled(true)
-                .logged(true)
+                .loged(true)
                 .sort(1)
                 .matchMode(MatchModeEnum.AND.getCode())
                 .matchRestful(false)
