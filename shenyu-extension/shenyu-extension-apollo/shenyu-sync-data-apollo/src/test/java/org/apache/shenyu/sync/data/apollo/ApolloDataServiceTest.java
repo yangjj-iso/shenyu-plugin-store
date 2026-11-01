@@ -45,6 +45,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -348,7 +349,9 @@ class ApolloDataServiceTest {
         ArgumentCaptor<ProxySelectorData> captor = ArgumentCaptor.forClass(ProxySelectorData.class);
         verify(proxySelectorDataSubscriber, times(1)).unSubscribe(captor.capture());
         assertEquals("test-plugin", captor.getValue().getPluginName());
-        assertEquals("test-proxy", captor.getValue().getId());
+        // Older snapshot cores put the key identity in name; current cores use id.
+        String keyIdentity = captor.getValue().getId();
+        assertEquals("test-proxy", Objects.isNull(keyIdentity) ? captor.getValue().getName() : keyIdentity);
     }
 
     @Test
