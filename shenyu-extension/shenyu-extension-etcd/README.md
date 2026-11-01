@@ -159,5 +159,5 @@ SHENYU_CORE_SOURCE=/path/to/shenyu bash script/plugin-store/build-etcd-runtime.s
 mvn -B -ntp -pl shenyu-extension/shenyu-extension-etcd/shenyu-spring-boot-starter-sync-data-etcd -am verify -Petcd-e2e
 ```
 
-The receiving PR and paired main PR require passing container/full
-application verification and the release gates above are complete.
+Merge still requires passing container/full-application verification and
+completion of the release gates above.
