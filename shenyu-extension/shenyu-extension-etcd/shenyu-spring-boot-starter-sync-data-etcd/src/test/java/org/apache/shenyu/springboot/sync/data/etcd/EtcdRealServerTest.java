@@ -405,7 +405,7 @@ public final class EtcdRealServerTest {
                 .pluginName(PluginEnum.DIVIDE.getName())
                 .selectorId(selectorId)
                 .enabled(true)
-                .loged(false)
+                .logged(false)
                 .sort(1)
                 .matchMode(MatchModeEnum.AND.getCode())
                 .handle(GsonUtils.getInstance().toJson(handle))
